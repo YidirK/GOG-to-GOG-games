@@ -1,0 +1,23 @@
+{
+  "name": "GoG_DL",
+  "description": "GOG Game Dl Extension",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "host_permissions" : [
+    "https://gog-games.to/*"
+  ],
+  "permissions": [
+    "https://gog-games.to/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "js": ["Main.js"],
+      "matches": [
+        "https://www.gog.com/*/game/*"
+      ]
+    }
+  ]
+}
