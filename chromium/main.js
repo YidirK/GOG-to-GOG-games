@@ -29,8 +29,8 @@ async function DoYourJob() {
         buttons[0].classList.remove("ng-hide");
     } else {
         buttons[0].textContent = "Not available for download on gog-games.to"
-        buttons[0].classList.remove("ng-hide");
         buttons[0].style.cursor = "not-allowed"
+        buttons[0].classList.remove("ng-hide");
     }
 
 }
