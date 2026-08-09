@@ -27,10 +27,65 @@ For now, you need to install it in developer mode, but it will be available on t
 ---
 
 # 📝 Changelog
+
+## [2.0.0] - 2026-08-09
+
+### ⚡ Migrated to WXT (Vite + TypeScript)
+- Replaced the separate `chromium/` and `firefox/` folders with a single unified **WXT** project
+- Chrome (Manifest V3) and Firefox (Manifest V2) builds are now generated automatically via `wxt build`
+- Added TypeScript across the entire codebase for type safety
+
+### 🔍 Improved Game Discovery (4-Stage Lookup)
+The extension can now find far more games by trying multiple slug variants before giving up:
+1. **Direct slug** — exact match from the GOG URL
+2. **Separator swap** — retries with `_` → `-` and `-` → `_`
+3. **Edition suffix stripping** — removes common suffixes (`_complete_edition`, `_goty_edition`, `_remastered`, `_definitive_edition`, `_deluxe_edition`, `_ultimate_edition`, `_gold_edition`, `_enhanced_edition`, `_special_edition`, `_anniversary_edition`, `_director_s_cut`, etc.) and retries
+4. **Text search fallback** — queries the search API using the game title scraped from the GOG page DOM (`<h1>` or `<meta og:title>`)
+
+### 🚀 SPA Navigation Support
+- The extension now detects Single Page Application (SPA) navigation on GOG (no more missing buttons when browsing between games without a full page reload)
+- Implemented via `history.pushState` / `history.replaceState` patching, `popstate` listener, and a `MutationObserver` with debounce
+
+### 🧠 Session Caching
+- Availability results are cached in memory per slug for the duration of the session, eliminating redundant network requests when revisiting the same game page
+
+### 🎨 Smarter Button Injection
+- The button injector first attempts to reuse the existing GOG native install button element
+- Falls back to injecting a styled custom button into the GOG product action container
+- Button styling matches GOG's native purple color scheme with hover animations
+
+---
+
 ## [1.0.1] - 2025-10-18
 
--  Now the extension work for firefox too
+- Now the extension works for Firefox too
 
+---
+
+## [1.0.0] - 2025-10-01
+
+- Initial release for Chromium-based browsers
+
+---
+
+## 🛠️ Development
+
+This project uses [WXT](https://wxt.dev/) (Vite + TypeScript).
+
+```bash
+npm install             # Install dependencies
+
+npm run dev             # Dev mode — Chrome (live reload)
+npm run dev:firefox     # Dev mode — Firefox (live reload)
+
+npm run build           # Production build — Chrome MV3 → .output/chrome-mv3/
+npm run build:firefox   # Production build — Firefox MV2 → .output/firefox-mv2/
+
+npm run zip             # Package for Chrome Web Store
+npm run zip:firefox     # Package for Firefox Add-ons
+
+npm run compile         # TypeScript type check (no emit)
+```
 
 ---
 
